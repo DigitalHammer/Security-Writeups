@@ -5,8 +5,9 @@
 - **Starting Location:** Kali VM in the same subnet
 
 **See this write-up on my website as well:**
+
 https://digitalhammer.github.io/sar
-[Michael Rose's Website](https://mademistakes.com/) (original creator)
+
 
 - - - 
 *Note 1: The IP addresses, URLs, and flags used in this demonstration were specific to the environment at the time of the exploit and will likely be different when another attempt at this box is made.*
