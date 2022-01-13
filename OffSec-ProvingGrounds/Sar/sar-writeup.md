@@ -2,7 +2,7 @@
 
 - **Box Host:** Offensive Security Proving Grounds
 - **Difficulty Rating:** Easy
-- **Starting Location:** Kali VM in the same subnet
+- **Starting Location:** Kali VM on the same subnet
 
 **See this write-up on my website as well:**
 
@@ -44,7 +44,7 @@ gobuster dir -u http://192.168.62.35 -w /usr/share/wordlists/dirb/big.txt
 ![Link an image](https://raw.githubusercontent.com/DigitalHammer/Security-Writeups/main/OffSec-ProvingGrounds/Sar/Images/03-directorybruteforce.png "Sar Walkthrough")
 
 - Our brute force found `robots.txt` that we can inspect for more information
-- We can either download this file on the command line or visit it in the browser. We will download it and view the details from the command line by using `curl`:
+- We can either download this file through the command line or visit it in the browser. We will download it and view the details from the command line by using `curl`:
   
 ```
 curl 192.168.62.35/robots.txt
@@ -52,7 +52,7 @@ curl 192.168.62.35/robots.txt
 
 ![Link an image](https://raw.githubusercontent.com/DigitalHammer/Security-Writeups/main/OffSec-ProvingGrounds/Sar/Images/04-downloadfiles.png "Sar Walkthrough")
 
-- Inside the `robots.txt` file contained one line that reads `sar2HTML`. Let's research that. 
+- Inside the `robots.txt` file contains one line that reads `sar2HTML`. Let's research that. 
 
 ---
 
@@ -95,13 +95,15 @@ Even though we found a common vulnerability for `sar2HTML`, that doesn't necessa
 https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet
 ```
 
-- We will start out by testing a reverse shell with Python. First we need to see if Python is installed on the server. We can run another simple command within the URL to test this.
+- Reverse shells can be written in several programming languages but we need to make sure that the language we use for our script is installed on the target server. First we'll test to see if Python is installed. We can run another simple command within the URL to test this.
 
 ```
 192.168.62.35/sar2HTML/index.php?plot=; python3 --help
 ```
 
 ![Link an image](https://raw.githubusercontent.com/DigitalHammer/Security-Writeups/main/OffSec-ProvingGrounds/Sar/Images/08-checkpython3.png "Sar Walkthrough")
+
+- Success! The target server has Python3 installed so we'll use Python as the language of choice for our script. 
 
 ---
 
@@ -192,7 +194,7 @@ ls -l
 
 ![Link an image](https://raw.githubusercontent.com/DigitalHammer/Security-Writeups/main/OffSec-ProvingGrounds/Sar/Images/14-write-ability.png "Sar Walkthrough")
 
-- This shows us we have write ability to the `write.sh` script! Let's insert a script with a reverse shell. 
+- This shows us we have write ability to the `write.sh` script! Let's insert a reverse shell into this script. 
   - This time we will use a simple php script (also found in the pentestmonkey site from above). 
   - Since we cannot `nano` into the file, we can `echo` the script in there, modifying the IP address to our Kali VM and choosing another port to listen on. 
   - *Note: echo requires a `\` in front of a `$` and a `"` for the script to be written accurately.*
@@ -207,8 +209,8 @@ cat write.sh
 
 ![Link an image](https://raw.githubusercontent.com/DigitalHammer/Security-Writeups/main/OffSec-ProvingGrounds/Sar/Images/15-echophpshell.png "Sar Walkthrough")
 
-- Setup a netcat listner in a terminal on your Kali VM
-  - Remembering the cronjob runs every 5 minutes, we may need to wait for a few minutes for it to cycle and execute our reverse shell
+- Setup a netcat listener in a terminal on your Kali VM
+  - Remembering the cronjob runs every 5 minutes, we may need to wait a few minutes for it to cycle and execute our reverse shell
 
 ```
 nc -lvp 8888
@@ -216,7 +218,7 @@ nc -lvp 8888
   
 ![Link an image](https://raw.githubusercontent.com/DigitalHammer/Security-Writeups/main/OffSec-ProvingGrounds/Sar/Images/15-netcat8888.png "Sar Walkthrough")
 
-- After a few minutes we have a success! We can run the command `whoami` to verify we have root:
+- After a few minutes we have a connection! We can run the command `whoami` to verify we have root:
 
 ```
 whoami
@@ -231,7 +233,7 @@ whoami
 ---
 
 ### Step 8: Finding the Root Flag
-Now that we have root access on the server, we want to look around for any flags we can find with our elevated level of access. 
+Now that we have root on the server, we want to use our increased level of access to find the final flag. 
 
 - Let's go into the root home directory and see what we can find:
 
@@ -252,9 +254,9 @@ Congratulations! In this walkthrough we were able to gain access to an Apache se
 - A network scan using `nmap`
 - A directory brute force using `gobuster`
 - Finding a vulnerability for the target in `expliot-db`
-- Executing a Python script `reverse shell` via an `RCE` in the URL
+- Executing a Python `reverse shell` via an `RCE` in the URL
 - Discovering `sudo` rights in a `cronjob`
-- Executing another `reverse shell` to gain root
+- Executing a PHP `reverse shell` to gain root access
 
 **See this write-up on my website as well:**
 
