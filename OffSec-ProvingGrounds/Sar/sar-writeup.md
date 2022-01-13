@@ -258,7 +258,4 @@ Congratulations! In this walkthrough we were able to gain access to an Apache se
 
 **See this write-up on my website as well:**
 
-```
-https://digitalhammer.github.io/sar/
-```
-
+https://digitalhammer.github.io/sar
