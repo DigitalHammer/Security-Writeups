@@ -1,4 +1,4 @@
-### A step-by-step walkthrough of the VulnHub box **"Katana"** that exploits web server via a reverse shell upload
+### A step-by-step walkthrough of the VulnHub box **"Katana"** that exploits a web server via a reverse shell upload
 
 - **Box Host:** Offensive Security Proving Grounds
 - **Difficulty Rating:** Easy
@@ -18,6 +18,7 @@ https://digitalhammer.github.io/katana
 We want to begin by scanning the network we are on for potential targets. Since our starting location is on the same subnet of the machine(s) we want to gain access to, we can start by executing a stealth scan of the entire subnet and all ports using `nmap`:
 
 - Stealth scan over entire subnet
+
 ```
 nmap -sS 192.168.60.83
 ```
