@@ -4,7 +4,7 @@
 - **Difficulty Rating:** Easy
 - **Starting Location:** Kali VM on the same subnet
 
-**See this write-up in GitHub as well:**
+**See this write-up on my website as well:**
 
 https://digitalhammer.github.io/katana
 
@@ -34,7 +34,7 @@ nmap -A -p- 192.168.60.83
 ![Link an image](https://raw.githubusercontent.com/DigitalHammer/Security-Writeups/main/OffSec-ProvingGrounds/Katana/Images/02-nmap-aggressive-allports.jpg "Katana Walkthrough")
 
 - Our new scan shows two more open ports `7080` and `8715` as well as technologies that may be useful to us in `Apache` and `LiteSpeed`
-  - We should also note that port `8715` is also using HTTP. As highlighted in the screenshot, we now have 3 ports utilizing HTTP
+  - We should note that port `8715` is also using HTTP. As highlighted in the screenshot, we now have 3 ports utilizing HTTP
 
 ---
 
@@ -60,12 +60,12 @@ http://192.168.60.83/ebook
 - Our first screenshot brought up an online bookstore. But, what appears to me more important, is that this has an `Admin Login` button on the bottom right.
 - Our second screenshot shows that this does indeed bring us to a login panel, asking for a username and password.
 ---
-- ***Note: This machine has rabbit holes that lead us nowhere. This admin panel doesn't get end up getting us anywhere.***
+- ***Note: This machine has rabbit holes that lead us nowhere. This admin panel doesn't end up getting us anywhere.***
 
 - Although this looks promising at the start, it leads us to a dead end. It can be difficult to know in advance what may work and what may not work as we are attempting to gain access to the server. 
 - We can try to avoid rabbit holes like this by performing more thorough scanning to try to see the whole picture. 
 - We know from our `nmap` scans that this server has 3 open ports running on `HTTP`. We can run `gobuster` on each port to get a better idea of this server's layout. 
-- In this case, we ended up finding an `upload.html` page that also looked promising by running `gobuster` on another HTTP port `8088` looking specifically for `.html` extensions. 
+- In this case, we ended up finding an `upload.html` page that also looked promising by running `gobuster` on HTTP port `8088` looking specifically for `.html` extensions. 
 
 ```
 gobuster dir -u http://192.168.60.83:8088 -w /usr/share/wordlists/dirb/big.txt -x .html
@@ -127,7 +127,7 @@ nc -lvp 1234
 
 - Now we can either `curl` our shell or visit it in the browser to activate it. We will use `curl` from the command line to activate it.
 - We also need to note that the web server told us our upload was moved to the other web server and gave us a url to it.
-  - We know that we were on port `8088` when we uploaded our shell and we know that HTTP is open on ports `80` and `8715` as well.
+  - We know that we were on port `8088` when we uploaded our shell and we know that HTTP is open on ports `80` and `8715`.
   - Most likely, the web server it moved it to `8715`. We will use that port for the url in our `curl` command.
 
 ```
@@ -180,7 +180,7 @@ The next step is to see how we can gain root access to the server. There are sev
 https://github.com/rmusser01/Infosec_Reference/blob/master/Draft/Cheat%20sheets%20reference%20pages%20Checklists%20-/Linux/cheat%20sheet%20Basic%20Linux%20Privilege%20Escalation.txt
 ```
 
-- In this case, we were able to find potential leverage using the `getcap` command
+- In this case, we were able to find potential leverage using the `getcap`:
 
 ```
 /usr/sbin/getcap -r / 2>/dev/null
@@ -204,7 +204,7 @@ https://github.com/rmusser01/Infosec_Reference/blob/master/Draft/Cheat%20sheets%
 ### Step 7: Find Root Flag
 Now that we have root on the server, we want to use our increased level of access to find the final flag.
 
-- We start out by seeing what is in our directory
+- We start out by seeing what is in our directory:
 
 ```
 ls
@@ -228,7 +228,7 @@ Congratulations! In this walkthrough we were able to gain access to an Apache we
 - Finding root privileges using `getcap`
 - Gaining root access with a `python shell`
 
-See this writeup in GitHub:
+**See this write-up on my website as well:**
 
 https://digitalhammer.github.io/katana
 
